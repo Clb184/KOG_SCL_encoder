@@ -1,2 +1,2 @@
 # KOG_SCL_encoder
-Seihou 2 - Kioh Gyoku script decoder.
+Seihou 2 - Kioh Gyoku script encoder.

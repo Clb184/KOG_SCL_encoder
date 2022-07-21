@@ -96,12 +96,14 @@ void getSubNames(char* buffer, std::string* sub_names, int sub_cnt, int& lv)
 	{
 		while (buffer[lv] != '@')
 		{
+			readComent(buffer, lv);
 			lv++;
 		}
 		lv++;
 		int pos = lv, nmsize = 0;
 		while (validChar(buffer[lv]))
 		{
+			readComent(buffer, lv);
 			nmsize++;
 			lv++;
 		}
@@ -109,6 +111,7 @@ void getSubNames(char* buffer, std::string* sub_names, int sub_cnt, int& lv)
 		char* subNm = new char[nmsize];
 		for (int j = 0; j < nmsize; j++)
 		{
+			readComent(buffer, lv);
 			subNm[j] = buffer[lv];
 			subNm[j + 1] = 0x00;
 			lv++;
@@ -125,6 +128,7 @@ void getLabNames(char* buffer, std::string* lab_names, int lab_cnt, int& lv)
 	{
 		while (buffer[lv] != '.')
 		{
+			
 			if (buffer[lv] == '"')
 			{
 				lv++;
@@ -133,13 +137,17 @@ void getLabNames(char* buffer, std::string* lab_names, int lab_cnt, int& lv)
 					lv++;
 				}
 			}
+			
 
+			readComent(buffer, lv);
 			lv++;
 		}
+		readComent(buffer, lv);
 		lv++;
 		int pos = lv, nmsize = 0;
 		while (validChar(buffer[lv]))
 		{
+			readComent(buffer, lv);
 			nmsize++;
 			lv++;
 		}
@@ -147,6 +155,7 @@ void getLabNames(char* buffer, std::string* lab_names, int lab_cnt, int& lv)
 		char* labNm = new char[nmsize];
 		for (int j = 0; j < nmsize; j++)
 		{
+			readComent(buffer, lv);
 			labNm[j] = buffer[lv];
 			labNm[j + 1] = 0x00;
 			lv++;
@@ -163,12 +172,14 @@ void getCmbNames(char* buffer, std::string* cmb_names, int cmb_cnt, int& lv)
 	{
 		while (buffer[lv] != '[')
 		{
+			readComent(buffer, lv);
 			lv++;
 		}
 		lv++;
 		int pos = lv, nmsize = 0;
 		while (validChar(buffer[lv]))
 		{
+			readComent(buffer, lv);
 			nmsize++;
 			lv++;
 		}
@@ -176,6 +187,7 @@ void getCmbNames(char* buffer, std::string* cmb_names, int cmb_cnt, int& lv)
 		char* cmbNm = new char[nmsize];
 		for (int j = 0; j < nmsize; j++)
 		{
+			readComent(buffer, lv);
 			cmbNm[j] = buffer[lv];
 			cmbNm[j + 1] = 0x00;
 			lv++;
@@ -209,6 +221,7 @@ inline void ofParam(int tms, char* buffer, int& lv)
 		//std::cout << "Pos actual antes de leer un argumento: " << lv << "\n";
 		while (buffer[lv] != ',')
 		{
+			readComent(buffer, lv);
 			lv++;
 		}
 		lv++;
@@ -249,6 +262,7 @@ int getNumber(char* buffer, int& lv)
 {
 	while (!(buffer[lv] >= '0' && buffer[lv] <= '9' || buffer[lv] == '-'))
 	{
+		readComent(buffer, lv);
 		if(buffer[lv] != ' ')
 		{
 			printf("Error en pos 0x%x: Caracter invalido.\n", lv);
@@ -259,6 +273,7 @@ int getNumber(char* buffer, int& lv)
 	int pos = lv, i = 0;
 	while (buffer[lv] >= '0' && buffer[lv] <= '9' || buffer[lv] == '-')
 	{
+		readComent(buffer, lv);
 		i++;
 		lv++;
 	}
@@ -266,6 +281,7 @@ int getNumber(char* buffer, int& lv)
 	char* num = new char[i];
 	for(int j = 0; j < i; j++)
 	{
+		readComent(buffer, lv);
 		num[j] = buffer[lv];
 		num[j + 1] = 0;
 		lv++;
@@ -279,6 +295,7 @@ int getVar(char* buffer, int& lv)
 {
 	while (buffer[lv] != 'v')
 	{
+		readComent(buffer, lv);
 		if (buffer[lv] != ' ')
 		{
 
@@ -292,6 +309,7 @@ int getVar(char* buffer, int& lv)
 
 		}
 		lv += 3;
+		readComent(buffer, lv);
 	}
 	else
 	{
@@ -308,6 +326,7 @@ std::string readSub(char* buffer, int& lv)
 		(buffer[lv] >= '0' && buffer[lv] <= '9') ||
 		buffer[lv] == '_'))
 	{
+		readComent(buffer, lv);
 		if (buffer[lv] != ' ')
 		{
 			printf("Error en pos 0x%x: Caracter invalido", lv);
@@ -321,6 +340,7 @@ std::string readSub(char* buffer, int& lv)
 		(buffer[lv] >= '0' && buffer[lv] <= '9') ||
 		buffer[lv] == '_')
 	{
+		readComent(buffer, lv);
 		size++;
 		lv++;
 	}
@@ -328,6 +348,7 @@ std::string readSub(char* buffer, int& lv)
 	char* nm = new char[size];
 	for (int i = 0; i < size; i++)
 	{
+		readComent(buffer, lv);
 		nm[i] = buffer[lv];
 		nm[i + 1] = 0;
 		lv++;
@@ -717,6 +738,7 @@ void determineSize(char* buffer, int lv, FILE* file, int* sub, int* lab, int* cm
 	std::string instName;
 	while (buffer[lv])
 	{
+		readComent(buffer, lv);
 		if (buffer[lv] == '@')
 		{
 			sub[s_pos] = sclPos;
@@ -801,6 +823,7 @@ void determineSize(char* buffer, int lv, FILE* file, int* sub, int* lab, int* cm
 
 				while (buffer[lv] != '}')
 				{
+					readComent(buffer, lv);
 					lv++;
 				}
 				int d = 0;
@@ -815,9 +838,11 @@ void determineSize(char* buffer, int lv, FILE* file, int* sub, int* lab, int* cm
 				if (instName == "EXIT" || instName == "RET")
 					printf("\n");
 #endif
+				readComent(buffer, lv);
 				instSize(instName, buffer, lv, file, sclPos, wrtAdd, sub, lab, cmb, sub_names, lab_names, cmb_names);
 				while (buffer[lv] != 0x0A)
 				{
+					readComent(buffer, lv);
 					lv++;
 				}
 				inst++;
@@ -844,6 +869,7 @@ void ReadFile(char* buffer, long lSize, const char* oName)
 	std::string instName;
 	while (lv < lSize)
 	{
+		readComent(buffer, lv);
 		if (buffer[lv] == '@')
 		{
 			if (!onSub)
@@ -1081,6 +1107,7 @@ void ReadFile(char* buffer, long lSize, const char* oName)
 
 	while (lv < lSize)
 	{
+		readComent(buffer, lv);
 		if (buffer[lv] == '@')
 		{
 			if (!onSub)
@@ -1660,7 +1687,7 @@ int main(int argc, char* argv[])
 {
 	if (argv[1] == NULL)
 	{
-		printf("Uso: KOG_SCL_comp_asm.exe input output\n");
+		printf("Uso: KOG_c.exe input output\n");
 		return 1;
 	}
 	else

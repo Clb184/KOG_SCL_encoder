@@ -120,3 +120,32 @@ inline void convDwChar(int32_t num, char* c_num)
 		num >>= 8;
 	}
 }
+
+inline void readComent(char* buffer, int& lv)
+{
+	if (buffer[lv] == '/')
+	{
+		lv++;
+		if (buffer[lv] == '/')
+		{
+			while (buffer[lv] != 0x0a)
+			{
+				lv++;
+			}
+		}
+		else if (buffer[lv] == '*')
+		{
+			lv++;
+			while (buffer[lv] != '*' && buffer[lv + 1] != '/')
+			{
+				lv++;
+			}
+			lv += 2;
+		}
+		else
+		{
+			printf("Error: Expresión inválida en pos 0x%x.\n");
+			exit(2);
+		}
+	}
+}
